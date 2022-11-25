@@ -39,6 +39,13 @@ const run = async() =>{
     const carsCollection = client.db('swap-car').collection("all-cars")
     const orderCollection = client.db('swap-car').collection("orders")
     try{
+        // jwt user token
+        app.get('/jwt',(req,res)=>{
+            const email = req.query.email;
+            console.log(email)
+            const token = jwt.sign({email},process.env.TOKEN_SECRET,{expiresIn:'20d'})
+            res.send({token});
+        });
         // get car category 
         app.get("/category",async(req,res)=>{
             const query = {};
@@ -81,14 +88,7 @@ const run = async() =>{
             const result = await orderCollection.find(query).toArray();
             res.send(result);
         });
-        // jwt token
-        app.get('/jwt',(req,res)=>{
-            const email = req.query.email;
-            console.log(email)
-            const token = jwt.sign({email},process.env.TOKEN_SECRET,{expiresIn:'20d'})
-            res.send({token});
-        });
-
+        
 
     }
     finally{
