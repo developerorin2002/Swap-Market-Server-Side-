@@ -1,0 +1,74 @@
+[
+    {
+        "image":"https://img.freepik.com/free-photo/grey-metallic-jeep-with-blue-stripe-it_114579-4080.jpg?w=740&t=st=1669227182~exp=1669227782~hmac=64a465f7b58ab12d7984bd7f4ef3f19e5145562a79bb9b1e6e00503c45279255",
+        "name":"BMW",
+        "model":"series f(40)",
+        "originalPrice":"10,5000",
+        "resalePrice":"25000",
+        "uses":"2 Years",
+        "sellerName":"Fahim Muntasir orin",
+        "location":"jessore",
+        "postingDate":"23Nov2022",
+        "category":"bmw"
+    },
+    {
+        "image":"https://img.freepik.com/free-photo/blue-sport-sedan-parked-yard_114579-5078.jpg?w=740&t=st=1669316178~exp=1669316778~hmac=16b675210cada2e9e981eb17bc6b31992bda9f0572ef63644010349bf082715d",
+        "name":"BMW",
+        "model":"series D(70)",
+        "resalePrice":"25000",
+        "originalPrice":"10,5000",
+        "uses":"2 Years",
+        "sellerName":"Fahim Muntasir orin",
+        "location":"Khulna",
+        "postingDate":"25Nov2022",
+        "category":"bmw"
+    },
+    {
+        "image":"https://img.freepik.com/free-photo/blue-jeep-parking-public-zone_114579-4042.jpg?w=740&t=st=1669227357~exp=1669227957~hmac=d470717a7b6fd8c4869c48d1e4f94e7482a52667a4c2c51f4327f4ef07381df2",
+        "name":"MARCEDES",
+        "model":"series xD(70)",
+        "originalPrice":"10,7000",
+        "resalePrice":"25000",
+        "uses":"1 Years",
+        "sellerName":"Muntasir ",
+        "location":"Dhaka",
+        "postingDate":"25Nov2022",
+        "category":"marcedes"
+    },
+    {
+        "image":"https://img.freepik.com/free-photo/grey-metallic-jeep-with-blue-stripe-it_114579-4080.jpg?w=740&t=st=1669316307~exp=1669316907~hmac=6ce8c71c4700960da5ea9a71b9c5e3e8781fe1a467dbe84c0556c87b6774e1dc",
+        "name":"VOLVO",
+        "model":"series xD(80)",
+        "resalePrice":"25000",
+        "originalPrice":"10,9000",
+        "uses":" 6 month",
+        "sellerName":"Muntasir Shohan",
+        "location":"Savar",
+        "postingDate":"25Nov2022",
+        "category":"marcedes"
+    },
+    {
+        "image":"https://img.freepik.com/free-photo/red-luxury-sedan-road_114579-5079.jpg?w=740&t=st=1669227293~exp=1669227893~hmac=40029ceb55282a0e9cdc39f908ac9b51c4c58587c1c25940d9551a67ad184241",
+        "name":"VOLVO",
+        "model":"series xD(80)",
+        "originalPrice":"10,9000",
+        "resalePrice":"25000",
+        "uses":" 8 month",
+        "sellerName":" Shohan Hossain",
+        "location":"chitagong",
+        "postingDate":"25Nov2022",
+        "category":"volvo"
+    },
+    {
+        "image":"https://img.freepik.com/free-photo/white-luxury-sport-sedan-car-standing-race-trace-front-side-view_114579-1161.jpg?w=740&t=st=1669316419~exp=1669317019~hmac=800ec5b55de34e9942bb7121e30822d8672f6f44a2f55bfff72d39961cc401cb",
+        "name":"VOLVO",
+        "model":"series X(100)",
+        "originalPrice":"10,9000",
+        "resalePrice":"25000",
+        "uses":" 8 month",
+        "sellerName":" Aslam Hossain",
+        "location":"Chadpara",
+        "postingDate":"25Nov2022",
+        "category":"volvo"
+    }
+]

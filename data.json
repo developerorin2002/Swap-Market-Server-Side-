@@ -1,0 +1,17 @@
+[
+    {
+        "category":"bmw",
+        "img":"https://img.freepik.com/free-photo/grey-metallic-jeep-with-blue-stripe-it_114579-4080.jpg?w=740&t=st=1669227182~exp=1669227782~hmac=64a465f7b58ab12d7984bd7f4ef3f19e5145562a79bb9b1e6e00503c45279255",
+        "name":"BMW"
+    },
+    {
+        "category":"volvo",
+        "img":"https://img.freepik.com/free-photo/red-luxury-sedan-road_114579-5079.jpg?w=740&t=st=1669227293~exp=1669227893~hmac=40029ceb55282a0e9cdc39f908ac9b51c4c58587c1c25940d9551a67ad184241",
+        "name":"VOLVO"
+    },
+    {
+        "category":"mercedes",
+        "img":"https://img.freepik.com/free-photo/blue-jeep-parking-public-zone_114579-4042.jpg?w=740&t=st=1669227357~exp=1669227957~hmac=d470717a7b6fd8c4869c48d1e4f94e7482a52667a4c2c51f4327f4ef07381df2",
+        "name":"MERCEDES"
+    }
+]
