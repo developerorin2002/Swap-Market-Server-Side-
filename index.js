@@ -4,7 +4,8 @@ require('dotenv').config();
 const port = process.env.PORT || 5000;
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
+const { query } = require('express');
 // middlewere 
 app.use(cors());
 app.use(express.json());
@@ -92,7 +93,6 @@ const run = async() =>{
             email:email
            };
            const user = await usersCollection.findOne(query);
-           console.log(user)
            res.send({isSeller : user?.role == 'seller'})
         })
         // check admin
@@ -102,7 +102,6 @@ const run = async() =>{
             email:email
            };
            const user = await usersCollection.findOne(query);
-           console.log(user)
            res.send({isAdmin : user?.role == 'admin'})
         })
         // check buyer
@@ -115,7 +114,32 @@ const run = async() =>{
            res.send({isBuyer : user?.role == 'buyer'})
         })
         // post an order 
-    
+        app.post('/uploadcar',async(req,res)=>{
+            const car = req.body;
+            console.log(car)
+            const upload = await carsCollection.insertOne(car);
+            res.send(upload);
+        });
+        // get my product
+        app.get('/myproduct',verifyUser,async(req,res)=>{
+            const email = req.query.email;
+            const query = {
+                email:email
+            };
+            const result = await carsCollection.find(query).toArray();
+            res.send(result);
+        })
+        // delete product
+        app.delete('/deleteproduct/:id',async(req,res)=>{
+            const deleteId = req.params.id;
+            console.log(deleteId)
+            const query = {
+                _id:ObjectId(deleteId)
+            }
+            const result = await carsCollection.deleteOne(query);
+            res.send(result);
+
+        })
         
 
     }
