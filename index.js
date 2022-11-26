@@ -178,9 +178,32 @@ const run = async () => {
         })
 
         // get all seller 
-        app.get('/seller',(req,res)=>{
-            
-        })
+        app.get('/allseller',verifyUser,async(req,res)=>{
+            const query = {
+                role:'seller'
+            };
+            const result = await usersCollection.find(query).toArray();
+            res.send(result);
+        });
+        // delete seller & buyer 
+        app.delete('/allseller/:id',async(req,res)=>{
+            const id = req.params.id;
+            console.log(id)
+            const query = {
+                _id:ObjectId(id)
+            }
+            const result = await usersCollection.deleteOne(query);
+            res.send(result)
+        });
+        // get all buyer 
+        app.get('/allbuyer',verifyUser,async(req,res)=>{
+            const query = {
+                role:'buyer'
+            };
+            const result = await usersCollection.find(query).toArray();
+            res.send(result);
+        });
+
 
 
     }
