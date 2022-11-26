@@ -42,7 +42,6 @@ const run = async() =>{
         // jwt user token
         app.get('/jwt',(req,res)=>{
             const email = req.query.email;
-            console.log(email)
             const token = jwt.sign({email},process.env.TOKEN_SECRET,{expiresIn:'20d'})
             res.send({token});
         });
@@ -55,7 +54,6 @@ const run = async() =>{
         // post user
         app.post('/users',async(req,res)=>{
             const user = req.body;
-            console.log(user);
             const result = await usersCollection.insertOne(user);
             res.send(result);
         });
@@ -71,7 +69,6 @@ const run = async() =>{
         // post an order
         app.post('/order',async(req,res)=>{
             const order = req.body;
-            console.log(order);
             const result = await orderCollection.insertOne(order);
             res.send(result);
         });
@@ -88,6 +85,37 @@ const run = async() =>{
             const result = await orderCollection.find(query).toArray();
             res.send(result);
         });
+        // check buyer role
+        app.get('/seller',async(req,res)=>{
+           const email = req.query.email;
+           const query = {
+            email:email
+           };
+           const user = await usersCollection.findOne(query);
+           console.log(user)
+           res.send({isSeller : user?.role == 'seller'})
+        })
+        // check admin
+        app.get('/admin',async(req,res)=>{
+           const email = req.query.email;
+           const query = {
+            email:email
+           };
+           const user = await usersCollection.findOne(query);
+           console.log(user)
+           res.send({isAdmin : user?.role == 'admin'})
+        })
+        // check buyer
+        app.get('/buyer',async(req,res)=>{
+           const email = req.query.email;
+           const query = {
+            email:email
+           };
+           const user = await usersCollection.findOne(query);
+           res.send({isBuyer : user?.role == 'buyer'})
+        })
+        // post an order 
+    
         
 
     }
