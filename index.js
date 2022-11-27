@@ -40,6 +40,7 @@ const run = async () => {
     const carsCollection = client.db('swap-car').collection("all-cars")
     const orderCollection = client.db('swap-car').collection("orders")
     const advertisementCollection = client.db('swap-car').collection("advertisement")
+    const reportedCollection = client.db('swap-car').collection("reportedItems")
     try {
         // jwt user token
         app.get('/jwt', (req, res) => {
@@ -231,7 +232,35 @@ const run = async () => {
                 res.send({verified:matchedItem.verified === true })
             }
         })
-
+        // reported product
+        app.post('/reported/:id',async(req,res)=>{
+            const id = req.params.id;
+            const query = {
+                _id:ObjectId(id)
+            }
+            const result = await carsCollection.findOne(query);
+            if(result){
+                const upload = await reportedCollection.insertOne(result);
+                res.send(upload);
+            };
+            
+        });
+        app.get('/reported',async(req,res)=>{
+            const query = {};
+            const result = await reportedCollection.find(query).toArray();
+            res.send(result);
+        });
+        // delete product
+        app.delete('/reported/:id',async(req,res)=>{
+            const id = req.params.id;
+            console.log(id);
+            const query = {
+                _id:ObjectId(id)
+            };
+            const reportedItems = await reportedCollection.deleteOne(query);
+            const result = await carsCollection.deleteOne(query);
+            res.send(result);
+        });
 
 
     }
