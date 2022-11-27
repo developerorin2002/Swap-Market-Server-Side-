@@ -203,6 +203,34 @@ const run = async () => {
             const result = await usersCollection.find(query).toArray();
             res.send(result);
         });
+        // verify seller 
+        app.put('/verifyseller/:id',async(req,res)=>{
+            const id = req.params.id;
+            console.log(id)
+            const query = {
+                _id:ObjectId(id)
+            };
+            const options = { upsert: true };
+            const updatedDoc = {
+                $set:{
+                    verified:true
+                }
+            };
+            const result = usersCollection.updateOne(query,updatedDoc,options);
+            res.send(result);
+        });
+        app.get('/verifiedseller',async(req,res)=>{
+            const email = req.query.email;
+            const query = {
+                email:email
+            };
+            const matchedItem = await usersCollection.findOne(query);
+            console.log(matchedItem);
+            
+            if(matchedItem){
+                res.send({verified:matchedItem.verified === true })
+            }
+        })
 
 
 
