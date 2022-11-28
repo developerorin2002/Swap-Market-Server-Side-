@@ -158,116 +158,115 @@ const run = async () => {
                 res.send(upload);
             };
         })
-        app.put('/advertise',async(req,res)=>{
+        app.put('/advertise', async (req, res) => {
             const id = req.query.id;
             const query = {
-                _id:ObjectId(id)
+                _id: ObjectId(id)
             }
             const options = { upsert: true }
             const updatedDoc = {
-                $set:{
-                    advertise:true
+                $set: {
+                    advertise: true
                 }
             }
-            const result = await carsCollection.updateOne(query,updatedDoc,options);
+            const result = await carsCollection.updateOne(query, updatedDoc, options);
             res.send(result);
         });
         // get all advertisment product
-        app.get('/advertise',async(req,res)=>{
+        app.get('/advertise', async (req, res) => {
             const query = {};
             const result = await advertisementCollection.find(query).toArray();
             res.send(result);
         })
 
         // get all seller 
-        app.get('/allseller',verifyUser,async(req,res)=>{
+        app.get('/allseller', verifyUser, async (req, res) => {
             const query = {
-                role:'seller'
+                role: 'seller'
             };
             const result = await usersCollection.find(query).toArray();
             res.send(result);
         });
         // delete seller & buyer 
-        app.delete('/allseller/:id',async(req,res)=>{
+        app.delete('/allseller/:id', async (req, res) => {
             const id = req.params.id;
             console.log(id)
             const query = {
-                _id:ObjectId(id)
+                _id: ObjectId(id)
             }
             const result = await usersCollection.deleteOne(query);
             res.send(result)
         });
         // get all buyer 
-        app.get('/allbuyer',verifyUser,async(req,res)=>{
+        app.get('/allbuyer', verifyUser, async (req, res) => {
             const query = {
-                role:'buyer'
+                role: 'buyer'
             };
             const result = await usersCollection.find(query).toArray();
             res.send(result);
         });
         // verify seller 
-        app.put('/verifyseller/:id',async(req,res)=>{
+        app.put('/verifyseller/:id', async (req, res) => {
             const id = req.params.id;
             console.log(id)
             const query = {
-                _id:ObjectId(id)
+                _id: ObjectId(id)
             };
             const options = { upsert: true };
             const updatedDoc = {
-                $set:{
-                    verified:true
+                $set: {
+                    verified: true
                 }
             };
-            const result = usersCollection.updateOne(query,updatedDoc,options);
+            const result = usersCollection.updateOne(query, updatedDoc, options);
             res.send(result);
         });
-        app.get('/verifiedseller',async(req,res)=>{
+        app.get('/verifiedseller', async (req, res) => {
             const email = req.query.email;
             const query = {
-                email:email
+                email: email
             };
             const matchedItem = await usersCollection.findOne(query);
             console.log(matchedItem);
-            
-            if(matchedItem){
-                res.send({verified:matchedItem.verified === true })
+
+            if (matchedItem) {
+                res.send({ verified: matchedItem.verified === true })
             }
         })
         // reported product
-        app.post('/reported/:id',async(req,res)=>{
+        app.post('/reported/:id', async (req, res) => {
             const id = req.params.id;
             const query = {
-                _id:ObjectId(id)
+                _id: ObjectId(id)
             }
             const result = await carsCollection.findOne(query);
-            if(result){
+            if (result) {
                 const upload = await reportedCollection.insertOne(result);
                 res.send(upload);
             };
-            
         });
-        app.get('/reported',async(req,res)=>{
+        app.get('/reported', async (req, res) => {
             const query = {};
             const result = await reportedCollection.find(query).toArray();
             res.send(result);
         });
         // delete product
-        app.delete('/reported/:id',async(req,res)=>{
+        app.delete('/reported/:id', async (req, res) => {
             const id = req.params.id;
             console.log(id);
             const query = {
-                _id:ObjectId(id)
+                _id: ObjectId(id)
             };
             const reportedItems = await reportedCollection.deleteOne(query);
             const result = await carsCollection.deleteOne(query);
             res.send(result);
         });
         // get order data 
-        app.get('/myorders/:id',async(req,res)=>{
+        app.get('/myorders/:id', async (req, res) => {
             const id = req.params.id;
             console.log(id);
             const query = {
-                _id:ObjectId(id)
+                _id: ObjectId(id)
             };
             const result = await orderCollection.findOne(query);
             res.send(result);
@@ -279,53 +278,72 @@ const run = async () => {
             const amount = price * 100;
             // Create a PaymentIntent with the order amount and currency
             const paymentIntent = await stripe.paymentIntents.create({
-              amount: amount,
-              currency: "usd",
-              "payment_method_types": [
-                "card"
-              ],
+                amount: amount,
+                currency: "usd",
+                "payment_method_types": [
+                    "card"
+                ],
             });
-          
+
             res.send({
-              clientSecret: paymentIntent.client_secret,
+                clientSecret: paymentIntent.client_secret,
             });
         });
         // paid product
-        app.put('/updateproduct/:id',async(req,res)=>{
+        app.put('/updateproduct/:id', async (req, res) => {
             const id = req.params.id;
             console.log(id)
             const options = { upsert: true };
             const orderQuery = {
-                productId : id
+                productId: id
             };
             const updatedOrderDoc = {
-                $set:{
-                    paid:true
+                $set: {
+                    paid: true
                 }
             }
-            const orderResult = await orderCollection.updateOne(orderQuery,updatedOrderDoc,options);
-                const productQuery = {
-                    _id:ObjectId(id)
-                };
-                const updatedProductDoc = {
-                    $set:{
-                        paid:true
-                    }
+            const orderResult = await orderCollection.updateOne(orderQuery, updatedOrderDoc, options);
+            const productQuery = {
+                _id: ObjectId(id)
+            };
+            const updatedProductDoc = {
+                $set: {
+                    paid: true
                 }
-            const productResult = await carsCollection.updateOne(productQuery,updatedProductDoc,options);
-                // update advertisement 
+            }
+            const productResult = await carsCollection.updateOne(productQuery, updatedProductDoc, options);
+            // update advertisement 
             const advertiseQuery = {
-                _id:ObjectId(id)
+                _id: ObjectId(id)
             }
             const updatedadvertiseDoc = {
-                $set:{
-                    paid:true
+                $set: {
+                    paid: true
                 }
             }
-            const advertiseResult = await advertisementCollection.updateOne(advertiseQuery,updatedadvertiseDoc,options);
+            const advertiseResult = await advertisementCollection.updateOne(advertiseQuery, updatedadvertiseDoc, options);
             res.send(advertiseResult);
 
+        });
+        app.put('/reportedproduct/:id', async (req, res) => {
+            const id = req.params.id;
+            console.log(id)
+            const query = {
+                _id:ObjectId(id)
+            }
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: {
+                    reported: true
+                },
+            };
+            const result = await carsCollection.updateOne(query,updateDoc,options);
+            res.send(result);
+
+
+
         })
+
 
 
     }
