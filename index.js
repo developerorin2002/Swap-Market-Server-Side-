@@ -6,6 +6,7 @@ const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const { query } = require('express');
+const stripe = require("stripe")(process.env.STRIPE_SECRET);
 // middlewere 
 app.use(cors());
 app.use(express.json());
@@ -261,6 +262,70 @@ const run = async () => {
             const result = await carsCollection.deleteOne(query);
             res.send(result);
         });
+        // get order data 
+        app.get('/myorders/:id',async(req,res)=>{
+            const id = req.params.id;
+            console.log(id);
+            const query = {
+                _id:ObjectId(id)
+            };
+            const result = await orderCollection.findOne(query);
+            res.send(result);
+        });
+        // payment 
+        app.post("/create-payment-intent", async (req, res) => {
+            const items = req.body;
+            const price = items.price;
+            const amount = price * 100;
+            // Create a PaymentIntent with the order amount and currency
+            const paymentIntent = await stripe.paymentIntents.create({
+              amount: amount,
+              currency: "usd",
+              "payment_method_types": [
+                "card"
+              ],
+            });
+          
+            res.send({
+              clientSecret: paymentIntent.client_secret,
+            });
+        });
+        // paid product
+        app.put('/updateproduct/:id',async(req,res)=>{
+            const id = req.params.id;
+            console.log(id)
+            const options = { upsert: true };
+            const orderQuery = {
+                productId : id
+            };
+            const updatedOrderDoc = {
+                $set:{
+                    paid:true
+                }
+            }
+            const orderResult = await orderCollection.updateOne(orderQuery,updatedOrderDoc,options);
+                const productQuery = {
+                    _id:ObjectId(id)
+                };
+                const updatedProductDoc = {
+                    $set:{
+                        paid:true
+                    }
+                }
+            const productResult = await carsCollection.updateOne(productQuery,updatedProductDoc,options);
+                // update advertisement 
+            const advertiseQuery = {
+                _id:ObjectId(id)
+            }
+            const updatedadvertiseDoc = {
+                $set:{
+                    paid:true
+                }
+            }
+            const advertiseResult = await advertisementCollection.updateOne(advertiseQuery,updatedadvertiseDoc,options);
+            res.send(advertiseResult);
+
+        })
 
 
     }
